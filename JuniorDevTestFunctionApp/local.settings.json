@@ -1,0 +1,14 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet"
+  },
+  "WeatherApiConfiguration": {
+    "Key": "",
+    "WeatherUrlBase": "https://api.openweathermap.org/data/2.5/weather"
+  },
+  "StorageConfiguration": {
+    "ConnectionString": "UseDevelopmentStorage=true"
+  }
+}
