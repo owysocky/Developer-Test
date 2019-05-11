@@ -33,7 +33,7 @@ namespace JuniorDevTestFunctionApp
         /// <returns>Task HttpResponseMessage.</returns>
         [FunctionName(nameof(GetData))]
         public static async Task<HttpResponseMessage> GetData(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequestMessage req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "get-data")] HttpRequestMessage req,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");

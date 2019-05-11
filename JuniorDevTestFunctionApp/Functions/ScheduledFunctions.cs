@@ -29,15 +29,15 @@ namespace JuniorDevTestFunctionApp
         /// <summary>
         /// Runs the scheduled task.
         /// TODO: This scheduled task has two issues. Please fix these issues:
-        /// TODO: 1) The scheduler is running too slow. We need to run it once every 5 minutes.
-        /// TODO: 2) Once we retrieve the data, we need to store the data. Another dev has created a method to do this. Please find it in the WeatherRepository and store this data.
+        /// TODO: 1) Once we retrieve the data, we need to store the data. Another dev has created a method to do this. Please find it in the WeatherRepository and store this data.
+        /// TODO: 2) The scheduler is running too fast. We need to run it once every 5 minutes.
         /// </summary>
         /// <param name="timer">The timer.</param>
         /// <param name="log">The log.</param>
         /// <returns>Task.</returns>
         [FunctionName(nameof(RunScheduledTask))]
         public static async Task RunScheduledTask(
-            [TimerTrigger("0 */15 * * * *")] TimerInfo timer,
+            [TimerTrigger("0 */1 * * * *")] TimerInfo timer,
             ILogger log)
         {
             foreach (var city in Cities)
