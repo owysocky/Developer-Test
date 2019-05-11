@@ -12,3 +12,4 @@ This is a junior web developement test for Provoke Solutions. It is a simple Azu
 
 ## Setup and Requirements
 1) You will need Visual Studio 2017 or Visual Studio 2019 with the Azure Development workload. 
+1) You may need to installed the Microsoft Azure Storage Emulator. If it is not included in the Azure Development workload, you can find installation information [here](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-emulator).
