@@ -25,20 +25,37 @@ namespace JuniorDevTestFunctionApp
     public static class HttpEndpoints
     {
         /// <summary>
-        /// Gets the data.
+        /// Gets all weather data stored in the database.
         /// TODO: This endpoint is currently not returning JSON when it is hit in the browser. Please adjust this code to make the return type as JSON.
         /// </summary>
-        /// <param name="req">The req.</param>
-        /// <param name="log">The log.</param>
-        /// <returns>Task HttpResponseMessage.</returns>
+        /// <param name="req">The http request message.</param>
+        /// <param name="log">The logger for the azure function.</param>
+        /// <returns>An HttpResponseMessage.</returns>
         [FunctionName(nameof(GetData))]
         public static async Task<HttpResponseMessage> GetData(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "get-data")] HttpRequestMessage req,
             ILogger log)
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
+            log.LogInformation("C# HTTP trigger function GetData processed a request.");
 
             return req.CreateResponse(HttpStatusCode.OK, await WeatherRepository.GetAll());
+        }
+
+        /// <summary>
+        /// Gets the most recent weather data for each city stored in the database.
+        /// TODO: This endpoint is currently not returning JSON when it is hit in the browser. Please adjust this code to make the return type as JSON.
+        /// </summary>
+        /// <param name="req">The http request message.</param>
+        /// <param name="log">The logger for the azure function.</param>
+        /// <returns>An HttpResponseMessage.</returns>
+        [FunctionName(nameof(GetMostRecentData))]
+        public static async Task<HttpResponseMessage> GetMostRecentData(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "get-most-recent")] HttpRequestMessage req,
+            ILogger log)
+        {
+            log.LogInformation("C# HTTP trigger function GetMostRecentData processed a request.");
+
+            return req.CreateResponse(HttpStatusCode.OK, await WeatherRepository.GetMostRecentFromAllPartitions());
         }
     }
 }

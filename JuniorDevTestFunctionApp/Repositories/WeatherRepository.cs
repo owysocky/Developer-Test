@@ -40,13 +40,14 @@ namespace JuniorDevTestFunctionApp.Repositories
         /// Updates the specified weather data.
         /// </summary>
         /// <param name="weatherData">The weather data.</param>
+        /// <param name="partitionKey">The partition key to store the data under. This should be the city name.</param>
         /// <returns>Task.</returns>
-        public static async Task Update(JObject weatherData)
+        public static async Task Update(string partitionKey, JObject weatherData)
         {
             DynamicTableEntity tableEntity =
-                new DynamicTableEntity("WeatherData", DateTimeOffset.UtcNow.Ticks.ToString())
+                new DynamicTableEntity(partitionKey, DateTimeOffset.UtcNow.Ticks.ToString())
                 {
-                    Properties = {["data"] = EntityProperty.GeneratePropertyForString(weatherData.ToString())}
+                    Properties = { ["data"] = EntityProperty.GeneratePropertyForString(weatherData.ToString()) }
                 };
 
             TableOperation operation = TableOperation.InsertOrReplace(tableEntity);
@@ -54,27 +55,52 @@ namespace JuniorDevTestFunctionApp.Repositories
         }
 
         /// <summary>
-        /// Gets all.
+        /// Gets the most recent data entry from each partitioned city.
         /// </summary>
-        /// <returns>Task List JObject.</returns>
+        /// <returns>A list of JObject containing weather data.</returns>
+        public static async Task<List<JObject>> GetMostRecentFromAllPartitions()
+        {
+            TableQuery<DynamicTableEntity> tableQuery =
+                new TableQuery<DynamicTableEntity>();
+            IEnumerable<DynamicTableEntity> queryResults = await ExecuteQuery(tableQuery);
+            return queryResults.GroupBy(x => x.PartitionKey)
+                .Select(x => x.FirstOrDefault())
+                .Select(x => JsonConvert.DeserializeObject<JObject>(x.Properties["data"].StringValue))
+                .ToList();
+        }
+
+        /// <summary>
+        /// Gets all the data across all partition keys.
+        /// </summary>
+        /// <returns>A list of JObject containing weather data.</returns>
         public static async Task<List<JObject>> GetAll()
         {
-            TableQuery<DynamicTableEntity> statusQuery =
-                new TableQuery<DynamicTableEntity>().Where(
-                    TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, "WeatherData"));
+            TableQuery<DynamicTableEntity> tableQuery = new TableQuery<DynamicTableEntity>();
+            IEnumerable<DynamicTableEntity> queryResults = await ExecuteQuery(tableQuery);
+            return queryResults
+                .Select(x => JsonConvert.DeserializeObject<JObject>(x.Properties["data"].StringValue))
+                .ToList();
+        }
 
+        /// <summary>
+        /// Executes the table query.
+        /// </summary>
+        /// <param name="tableQuery">The query to get data based on.</param>
+        /// <returns>An IEnumerable of DynamicTableEntities.</returns>
+        private static async Task<IEnumerable<DynamicTableEntity>> ExecuteQuery(TableQuery<DynamicTableEntity> tableQuery)
+        {
             TableContinuationToken continuationToken = null;
             List<DynamicTableEntity> queryResults = new List<DynamicTableEntity>();
             do
             {
-                TableQuerySegment<DynamicTableEntity> result = await CloudTable.ExecuteQuerySegmentedAsync(statusQuery, continuationToken);
+                TableQuerySegment<DynamicTableEntity> result = await CloudTable.ExecuteQuerySegmentedAsync(tableQuery, continuationToken);
                 continuationToken = result.ContinuationToken;
 
                 queryResults.AddRange(result.Results);
             }
             while (continuationToken != null);
 
-            return queryResults.OrderByDescending(x => x.Timestamp).Select(x => JsonConvert.DeserializeObject<JObject>(x.Properties["data"].StringValue)).ToList();
+            return queryResults.OrderByDescending(x => x.Timestamp);
         }
 
         /// <summary>
