@@ -45,4 +45,6 @@ Once you've fixed these immediate issues, the app should:
 Again, this front end can be whatever you feel like making: plain JS and HTML, React, Angular, whatever.
 
 ## Submitting your work
-To submit your work, make sure your work is in its own branch, and make a pull request against master.
+To submit your work, please fork this repository first and make your changes in your own repository. You can then open a pull request for changes for us to review.
+
+Good luck!
