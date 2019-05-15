@@ -5,11 +5,11 @@ This is a junior web developement test for Provoke Solutions. It is a simple Azu
 
 ## Setup and Requirements
 1) You need Visual Studio 2017 or Visual Studio 2019 with the Azure Development workload to run the app in development mode.  
-  * [Visual Studio Community Edition download](https://visualstudio.microsoft.com/free-developer-offers/)
-  * [Adding workloads to Visual Studio](https://github.com/MicrosoftDocs/visualstudio-docs/blob/master/docs/install/modify-visual-studio.md)
+   * [Visual Studio Community Edition download](https://visualstudio.microsoft.com/free-developer-offers/)
+   * [Adding workloads to Visual Studio](https://github.com/MicrosoftDocs/visualstudio-docs/blob/master/docs/install/modify-visual-studio.md)
 1) Microsoft Azure Storage Emulator to run the local storage configuration. If it does not come included with the Azure Development workload, you can find installation information [here](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-emulator).
 1) Not required, but the [Microsoft Azure Storage Explorer](https://azure.microsoft.com/en-us/features/storage-explorer/) will allow you to view and manipulate values stored on your local machine. You shouldn't need to do this for the purpose of this exercise, but the tools are there.
-  * The app's storage will be at Local and Attached > Storage Accounts > Tables > WeatherTable
+   * The app's storage will be at Local and Attached > Storage Accounts > Tables > WeatherTable
 
 To setup the project, clone it down into a local directory, and open the .sln file with Visual Studio. That should be all the setup you need.
 
