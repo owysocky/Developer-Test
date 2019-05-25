@@ -5,7 +5,7 @@
     "FUNCTIONS_WORKER_RUNTIME": "dotnet"
   },
   "WeatherApiConfiguration": {
-    "Key": "",
+    "Key": "the key will go here",
     "WeatherUrlBase": "https://api.openweathermap.org/data/2.5/weather"
   },
   "StorageConfiguration": {
